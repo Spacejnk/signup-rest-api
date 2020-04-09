@@ -18,6 +18,28 @@ module.exports = {
       .catch(err => {
           res.json({ success: false, result: err})
       });
+  },
+  // update --check if exist first
+  update: (req, res) => {
+    UserModel.update({_id: req.body_id}, req.body)
+    .then(user => {
+      if (!user) res.json({success: false, result: "User does not exist"});
+  
+      res.json(user);
+    })
+    .catch(err => {
+      res.json({ success: false, result: err})
+   });
+  },
+  // retrieve data
+  retrieve: (req, res) => {
+    UserModel.find()
+    .then(result => {
+      if (!result) res.json({success: false, result: "No results found"});
+
+      res.json({ success: true, result: result});
+    })
+    .catch(err => res.json({success: false, result: err}));
   }  
 }
 
